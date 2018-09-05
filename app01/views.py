@@ -121,3 +121,7 @@ def t_filter(requests):
         "girl": "Lily"
     }
     return render(requests, "t_filter.html", data)
+
+
+def index(requests):
+    return render(requests, "base.html")

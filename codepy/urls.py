@@ -35,4 +35,5 @@ urlpatterns = [
     url(r'^edit_author/', views.edit_author),
     url(r'^t_filter/', views.t_filter),
 
+    url(r'index/', views.index),
 ]
