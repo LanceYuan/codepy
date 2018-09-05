@@ -109,4 +109,5 @@ def edit_author(requests):
 
 def test(requests):
     data = "Lance"
-    return render(requests, "test.html", {"name": data})
+    data_dic = {"name": "lance", "age": 30}
+    return render(requests, "test.html", {"name": data, "dict": data_dic})
