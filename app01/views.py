@@ -106,8 +106,18 @@ def edit_author(requests):
     books = Book.objects.all()
     return render(requests, "edit_author.html", {"list_book": books, "author": edit_author_obj})
 
-
-def test(requests):
-    data = "Lance"
-    data_dic = {"name": "lance", "age": 30}
-    return render(requests, "test.html", {"name": data, "dict": data_dic})
+def t_filter(requests):
+    import time, datetime
+    # now_time = time.strftime("%Y-%m-%d %H:%M:%S")
+    now_time = datetime.datetime.now()
+    script_html = '<script>alert("Hello World")</script>'
+    script_safe = '<script>for(var i=1;i<4;i++){alert(i);}</script>'
+    data = {
+        "name": "lance",
+        "age": 32,
+        "script_str": script_html,
+        "script_safe": script_safe,
+        "now_time": now_time,
+        "girl": "Lily"
+    }
+    return render(requests, "t_filter.html", data)
