@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block publisher_class %}
+    active
+{% endblock %}
+
+{% block page_main %}
+<div class="containers">
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>序号</th>
+                <th>出版社名称</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for publisher in publisher_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ publisher.id }}</td>
+                    <td>{{ publisher.name }}</td>
+                    <td>
+                        <a class="btn btn-info" href="/edit_publisher/?id={{ publisher.id }}">编辑</a>
+                        <a class="btn btn-danger" href="/delete_publisher/?id={{ publisher.id }}">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    <a class="btn btn-success pull-right" href="/add_publisher/">添加出版社</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block author_class %}
+    active
+{% endblock %}
+
+{% block page_main %}
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>序号</th>
+                <th>作者名称</th>
+                <th>书籍名称</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for author in list_author %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ author.id }}</td>
+                    <td>{{ author.name }}</td>
+                    <td>
+                        {% for book in author.book.all %}
+                            <span style="padding: 10px">
+                            {% if forloop.last %}
+                                {{ book.name }}
+                            {% else %}
+                                {{ book.name }}
+                            {% endif %}
+                            </span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a class="btn btn-info" href="/edit_author/?id={{ author.id }}">编辑</a>
+                        <a class="btn btn-danger" href="/delete_author/?id={{ author.id }}">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a class="btn btn-success pull-right" href="/add_author/">添加作者</a>
+    </div>
+{% endblock %}

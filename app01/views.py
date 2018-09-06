@@ -4,7 +4,7 @@ from app01.models import Publisher, Book, Author
 # Create your views here.
 def publisher_list(requests):
     data = Publisher.objects.all().order_by("id")
-    return render(requests, "list_publisher.html", {"publisher_list": data})
+    return render(requests, "list_publisher_02.html", {"publisher_list": data})
 
 def delete_publisher(requests):
     del_id = requests.GET.get("id", None)
@@ -34,7 +34,7 @@ def edit_publisher(requests):
 
 def list_book(requests):
     data = Book.objects.all()
-    return render(requests, "list_book.html", {"book_list": data})
+    return render(requests, "list_book_02.html", {"book_list": data})
 
 
 def add_book(requests):
@@ -72,7 +72,7 @@ def edit_book(requests):
 
 def list_author(requests):
     data = Author.objects.all().order_by("id")
-    return render(requests, "list_author.html", {"list_author": data})
+    return render(requests, "list_author_02.html", {"list_author": data})
 
 
 def delete_author(requests):
