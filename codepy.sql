@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localpc
-Source Server Version : 50635
+Source Server         : localhost
+Source Server Version : 50723
 Source Host           : localhost:3306
 Source Database       : codepy
 
 Target Server Type    : MYSQL
-Target Server Version : 50635
+Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-09-04 21:53:59
+Date: 2018-09-06 15:55:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,16 +22,18 @@ DROP TABLE IF EXISTS `app01_author`;
 CREATE TABLE `app01_author` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
+  `create_time` datetime(6) NOT NULL,
+  `modify_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app01_author
 -- ----------------------------
-INSERT INTO `app01_author` VALUES ('8', 'Caption');
-INSERT INTO `app01_author` VALUES ('3', 'LanceYuan');
-INSERT INTO `app01_author` VALUES ('7', 'Lily');
+INSERT INTO `app01_author` VALUES ('3', 'LanceYuan', '2018-09-06 15:48:58.811943', '2018-09-06 15:49:00.121228');
+INSERT INTO `app01_author` VALUES ('7', 'Lily', '2018-09-06 15:48:58.811943', '2018-09-06 15:49:00.121228');
+INSERT INTO `app01_author` VALUES ('8', 'Caption', '2018-09-06 15:48:58.811943', '2018-09-06 15:49:00.121228');
 
 -- ----------------------------
 -- Table structure for app01_author_book
@@ -46,7 +48,7 @@ CREATE TABLE `app01_author_book` (
   KEY `app01_author_book_book_id_15e32827_fk_app01_book_id` (`book_id`),
   CONSTRAINT `app01_author_book_author_id_0f6c5f17_fk_app01_author_id` FOREIGN KEY (`author_id`) REFERENCES `app01_author` (`id`),
   CONSTRAINT `app01_author_book_book_id_15e32827_fk_app01_book_id` FOREIGN KEY (`book_id`) REFERENCES `app01_book` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app01_author_book
@@ -55,10 +57,9 @@ INSERT INTO `app01_author_book` VALUES ('2', '3', '3');
 INSERT INTO `app01_author_book` VALUES ('3', '3', '6');
 INSERT INTO `app01_author_book` VALUES ('22', '7', '3');
 INSERT INTO `app01_author_book` VALUES ('23', '7', '7');
-INSERT INTO `app01_author_book` VALUES ('14', '8', '3');
-INSERT INTO `app01_author_book` VALUES ('15', '8', '6');
-INSERT INTO `app01_author_book` VALUES ('13', '8', '8');
-INSERT INTO `app01_author_book` VALUES ('16', '8', '9');
+INSERT INTO `app01_author_book` VALUES ('25', '8', '3');
+INSERT INTO `app01_author_book` VALUES ('26', '8', '6');
+INSERT INTO `app01_author_book` VALUES ('24', '8', '8');
 
 -- ----------------------------
 -- Table structure for app01_book
@@ -68,20 +69,23 @@ CREATE TABLE `app01_book` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
   `publisher_id` int(11) NOT NULL,
+  `create_time` datetime(6) NOT NULL,
+  `modify_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `app01_book_publisher_id_e407867a_fk_app01_publisher_id` (`publisher_id`),
   CONSTRAINT `app01_book_publisher_id_e407867a_fk_app01_publisher_id` FOREIGN KEY (`publisher_id`) REFERENCES `app01_publisher` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app01_book
 -- ----------------------------
-INSERT INTO `app01_book` VALUES ('3', 'Python 全栈', '6');
-INSERT INTO `app01_book` VALUES ('6', 'Go lang高并发', '3');
-INSERT INTO `app01_book` VALUES ('7', '英语ABC', '1');
-INSERT INTO `app01_book` VALUES ('8', 'java script 万能', '3');
-INSERT INTO `app01_book` VALUES ('9', '战神', '1');
+INSERT INTO `app01_book` VALUES ('3', 'Python 全栈', '6', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978');
+INSERT INTO `app01_book` VALUES ('6', 'Go lang高并发', '3', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978');
+INSERT INTO `app01_book` VALUES ('7', '英语ABC', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978');
+INSERT INTO `app01_book` VALUES ('8', 'java script 万能', '3', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978');
+INSERT INTO `app01_book` VALUES ('9', '战神', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978');
+INSERT INTO `app01_book` VALUES ('10', '北漂', '8', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978');
 
 -- ----------------------------
 -- Table structure for app01_publisher
@@ -90,19 +94,22 @@ DROP TABLE IF EXISTS `app01_publisher`;
 CREATE TABLE `app01_publisher` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
+  `create_time` datetime(6) NOT NULL,
+  `modify_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app01_publisher
 -- ----------------------------
-INSERT INTO `app01_publisher` VALUES ('3', '上海出版社');
-INSERT INTO `app01_publisher` VALUES ('7', '上海新东方出版社');
-INSERT INTO `app01_publisher` VALUES ('1', '新华出版社');
-INSERT INTO `app01_publisher` VALUES ('5', '清华出版社');
-INSERT INTO `app01_publisher` VALUES ('2', '电子工业出版社');
-INSERT INTO `app01_publisher` VALUES ('6', '老男孩出版社');
+INSERT INTO `app01_publisher` VALUES ('1', '新华出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
+INSERT INTO `app01_publisher` VALUES ('2', '电子工业出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
+INSERT INTO `app01_publisher` VALUES ('3', '上海出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
+INSERT INTO `app01_publisher` VALUES ('5', '清华出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
+INSERT INTO `app01_publisher` VALUES ('6', '上海老男孩出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:51:32.325860');
+INSERT INTO `app01_publisher` VALUES ('7', '上海新东方出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
+INSERT INTO `app01_publisher` VALUES ('8', '北京出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
 
 -- ----------------------------
 -- Table structure for auth_group
@@ -304,7 +311,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_migrations
@@ -325,6 +332,7 @@ INSERT INTO `django_migrations` VALUES ('13', 'auth', '0008_alter_user_username_
 INSERT INTO `django_migrations` VALUES ('14', 'sessions', '0001_initial', '2018-09-03 10:02:29.792459');
 INSERT INTO `django_migrations` VALUES ('15', 'app01', '0002_book', '2018-09-03 12:45:41.847260');
 INSERT INTO `django_migrations` VALUES ('16', 'app01', '0003_author', '2018-09-04 11:47:58.681639');
+INSERT INTO `django_migrations` VALUES ('17', 'app01', '0004_auto_20180906_1548', '2018-09-06 15:49:04.524092');
 
 -- ----------------------------
 -- Table structure for django_session
