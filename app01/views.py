@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import JsonResponse
 from app01.models import Publisher, Book, Author
 
 # Create your views here.
@@ -106,6 +107,7 @@ def edit_author(requests):
     books = Book.objects.all()
     return render(requests, "edit_author.html", {"list_book": books, "author": edit_author_obj})
 
+
 def t_filter(requests):
     import time, datetime
     # now_time = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -125,4 +127,4 @@ def t_filter(requests):
 
 def index(requests):
     print(requests.body)
-    return HttpResponse("OK")
+    return JsonResponse({"name": "lance"})
