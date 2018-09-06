@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django filter测试</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+{% load myfilter %}
+<div class="container">
+    <div class="page-header">
+        <h1>Django filter
+        </h1>
+    </div>
+    <div>
+        {{ name|upper }}
+        {{ age }}<br>
+        {{ defaultVal|default:"Nothing here." }}<br>
+        {{ script_str }}
+        {{ script_safe|safe }}<br>
+        {{ now_time|date:"SHORT_DATE_FORMAT" }}<br>
+        {{ name|add_str }}<br>
+        {{ girl|str_args:"Beautiful girl forever." }}
+    </div>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+</html>
