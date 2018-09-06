@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from app01.models import Publisher, Book, Author
 
 # Create your views here.
@@ -124,4 +124,5 @@ def t_filter(requests):
 
 
 def index(requests):
-    return render(requests, "base.html")
+    print(requests.body)
+    return HttpResponse("OK")
