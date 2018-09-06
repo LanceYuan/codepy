@@ -5,6 +5,8 @@ from django.db import models
 class Publisher(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64, null=False, unique=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+    modify_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "<Publisher object: {0}>".format(self.name)
@@ -13,6 +15,8 @@ class Book(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64, null=False, unique=True)
     publisher = models.ForeignKey(to="Publisher")
+    create_time = models.DateTimeField(auto_now_add=True)
+    modify_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "<Book object: {0}>".format(self.name)
@@ -21,6 +25,8 @@ class Author(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64, null=False, unique=True)
     book = models.ManyToManyField(to="Book")
+    create_time = models.DateTimeField(auto_now_add=True)
+    modify_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "<Author object: {0}>".format(self.name)
