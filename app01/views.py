@@ -9,9 +9,15 @@ def publisher_list(requests):
     return render(requests, "list_publisher_02.html", {"publisher_list": data})
 
 
-def delete_publisher(requests):
-    del_id = requests.GET.get("id", None)
-    obj = Publisher.objects.filter(id=del_id)
+# def delete_publisher(requests):
+#     del_id = requests.GET.get("id", None)
+#     obj = Publisher.objects.filter(id=del_id)
+#     obj.delete()
+#     return redirect("/publisher_list/")
+
+# URL 分组传参.
+def delete_publisher(requests, d_id):
+    obj = Publisher.objects.get(id=d_id)
     obj.delete()
     return redirect("/publisher_list/")
 

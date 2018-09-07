@@ -24,7 +24,7 @@
                     <td>{{ publisher.name }}</td>
                     <td>
                         <a class="btn btn-info" href="/edit_publisher/?id={{ publisher.id }}">编辑</a>
-                        <a class="btn btn-danger" href="/delete_publisher/?id={{ publisher.id }}">删除</a>
+                        <a class="btn btn-danger" href="/delete_publisher/{{ publisher.id }}">删除</a>
                     </td>
                 </tr>
             {% endfor %}

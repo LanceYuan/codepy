@@ -20,7 +20,7 @@ from app01 import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^publisher_list/', views.publisher_list),
-    url(r'^delete_publisher/', views.delete_publisher),
+    url(r'^delete_publisher/(\d+)/', views.delete_publisher),
     # url(r'^add_publisher/', views.add_publisher),
     url(r'^add_publisher/', views.AddPublisher.as_view()),
     url(r'^edit_publisher/', views.edit_publisher),
