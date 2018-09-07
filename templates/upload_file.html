@@ -23,15 +23,34 @@
                 <input type="file" name="file_name" id="file_name" class="">
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">提交</button>
             </div>
         </div>
     </form>
+    <div class="form-group">
+        <label for="file_name" class="col-sm-2 control-label">File Input</label>
+        <div class="col-sm-10">
+            <button id="b1" class="btn btn-info">AJAX_Json</button>
+        </div>
+    </div>
 </div>
-
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#b1").on("click", function () {
+            $.getJSON({
+                dataType: "json",
+                url: "http://127.0.0.1:8000/index/",
+                success: function (data) {
+                    console.log(data.name);
+                }
+            })
+        })
+    })
+</script>
 </body>
 </html>

@@ -146,8 +146,8 @@ def t_filter(requests):
 
 
 def index(requests):
-    print(requests.body)
-    return JsonResponse({"name": "lance"})
+    response = JsonResponse({"name": "lance"})
+    return response
 
 
 class upload_file(View):
