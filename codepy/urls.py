@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^edit_author/', views.edit_author),
     url(r'^t_filter/', views.t_filter),
 
-    url(r'index/', views.index),
+    url(r'index/', views.index, name="index"),
     url(r'upload/', views.upload_file.as_view()),
 
     # 多应用URL

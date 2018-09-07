@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.http import JsonResponse
 from app01.models import Publisher, Book, Author
 from django.views import View
@@ -49,9 +49,9 @@ def edit_publisher(requests):
         publisher_obj.save()
         return redirect("/publisher_list/")
     publisher_id = requests.GET.get("id")
-    publisher_obj = Publisher.objects.get(id=publisher_id)
+    # publisher_obj = Publisher.objects.get(id=publisher_id)
+    publisher_obj = get_object_or_404(Publisher, id=publisher_id)
     return render(requests, "edit_publisher.html", {"publisher_obj": publisher_obj})
-
 
 def list_book(requests):
     data = Book.objects.all()
