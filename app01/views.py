@@ -147,6 +147,7 @@ def t_filter(requests):
 
 def index(requests):
     response = JsonResponse({"name": "lance"})
+    response.setdefault("Access-Control-Allow-Origin", "*")
     return response
 
 
