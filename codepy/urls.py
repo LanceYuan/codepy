@@ -21,7 +21,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^publisher_list/', views.publisher_list),
     url(r'^delete_publisher/', views.delete_publisher),
-    url(r'^add_publisher/', views.add_publisher),
+    # url(r'^add_publisher/', views.add_publisher),
+    url(r'^add_publisher/', views.AddPublisher.as_view()),
     url(r'^edit_publisher/', views.edit_publisher),
 
     url(r'^list_book/', views.list_book),

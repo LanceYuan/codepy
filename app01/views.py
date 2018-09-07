@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.http import JsonResponse
 from app01.models import Publisher, Book, Author
+from django.views import View
 
 # Create your views here.
 def publisher_list(requests):
     data = Publisher.objects.all().order_by("id")
     return render(requests, "list_publisher_02.html", {"publisher_list": data})
+
 
 def delete_publisher(requests):
     del_id = requests.GET.get("id", None)
@@ -19,6 +21,18 @@ def add_publisher(requests):
         obj = Publisher.objects.create(name=name)
         return redirect("/publisher_list/")
     return render(requests, "add_publisher.html")
+
+
+class AddPublisher(View):
+
+    def get(self, requests):
+        return render(requests, "add_publisher.html")
+
+    def post(self, requests):
+        name = requests.POST.get("publisher_name", None)
+        obj = Publisher.objects.create(name=name)
+        return redirect("/publisher_list/")
+
 
 def edit_publisher(requests):
     if requests.method == "POST":
