@@ -148,3 +148,16 @@ def t_filter(requests):
 def index(requests):
     print(requests.body)
     return JsonResponse({"name": "lance"})
+
+
+class upload_file(View):
+
+    def get(self, requests):
+        return render(requests, "upload_file.html")
+
+    def post(self, requests):
+        file_obj = requests.FILES.get("file_name")
+        with open(file_obj.name, 'wb') as fd:
+            for chunk in file_obj.chunks():
+                fd.write(chunk)
+        return HttpResponse("upload done.")

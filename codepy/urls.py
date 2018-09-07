@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^t_filter/', views.t_filter),
 
     url(r'index/', views.index),
+    url(r'upload/', views.upload_file.as_view())
 ]
