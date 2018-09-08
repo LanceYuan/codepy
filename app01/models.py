@@ -15,6 +15,7 @@ class Book(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64, null=False, unique=True)
     publisher = models.ForeignKey(to="Publisher") # related_name用于Publisher反向查找时使用，publisher.books.all()
+    price = models.DecimalField(max_digits=5, decimal_places=2, default=99.99)
     create_time = models.DateTimeField(auto_now_add=True)
     modify_time = models.DateTimeField(auto_now=True)
 

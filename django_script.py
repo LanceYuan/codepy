@@ -55,5 +55,36 @@ if __name__ == "__main__":
     publisher_obj_book = publisher_obj.book_set.all()
     # 基于双下划线的查询.
     publisher_books = Publisher.objects.filter(id=6).values("book__name")
-    #
-    print(publisher_books)
+    # 多对多增删改查.
+    author_obj = Author.objects.first()
+    author_obj_books = author_obj.book.all()
+    # 根据Author_obj创建书籍并关联作者和出版社，并且返回的是书的对象.
+    # auth_create_book = author_obj.book.create(name="Django 开发", publisher_id=6)
+    # 给author_obj对象新增一本书,在原有数据的基础上增加.
+    # author_obj.book.add(id=6)
+    # author_obj.book.add(11, 12)
+    # books = Book.objects.filter(id__gt=10)
+    # author_obj.book.add(*books)
+    # 给Author_obj设置新的books,所有ID大于10的书籍，原有的数据会删除.
+    # books = Book.objects.filter(id__gt=10)
+    # author_obj.book.set(books)
+    # 给Author_obj 删除指定书籍.
+    # book_del = Book.objects.get(id=11)
+    # author_obj.book.remove(book_del)
+    # 清空author_obj关联的所有书籍. 注意数据库中表字段是否能为空.
+    # author_obj.book.clear()
+    # 聚合函数.
+    from django.db.models import Avg, Sum, Max, Min, Count
+    price_avg = Book.objects.all().aggregate(Avg("price"))
+    price_sum = Book.objects.all().aggregate(Sum("price"))
+    price_max = Book.objects.all().aggregate(Max("price"))
+    # price_min指定返回数据的KEY.
+    price_min = Book.objects.all().aggregate(price_min=Min("price"))
+    price_all = Book.objects.all().aggregate(price_min=Min("price"), price_max=Max("price"), price_avg=Avg("price"))
+    # 分组. 查询所有书籍关联的作者数量，Count后面直接跟表名.
+    books_obj = Book.objects.all().annotate(author_num=Count("author"))
+    for item in books_obj:
+        print(item.name, item.author_num)
+    # 所有书籍作者大于1的数据.
+    books_obj = Book.objects.all().annotate(author_num=Count("author")).filter(author_num__gt=1)
+    print(books_obj)
