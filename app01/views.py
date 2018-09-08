@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.http import JsonResponse
 from app01.models import Publisher, Book, Author
 from django.views import View
+from django.urls import reverse
 
 # Create your views here.
 def publisher_list(requests):
@@ -146,6 +147,8 @@ def t_filter(requests):
 
 
 def index(requests):
+    url_index = reverse("index")
+    print(url_index)
     response = JsonResponse({"name": "lance"})
     response.setdefault("Access-Control-Allow-Origin", "*")
     return response
