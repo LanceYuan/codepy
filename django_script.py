@@ -87,4 +87,12 @@ if __name__ == "__main__":
         print(item.name, item.author_num)
     # 所有书籍作者大于1的数据.
     books_obj = Book.objects.all().annotate(author_num=Count("author")).filter(author_num__gt=1)
-    print(books_obj)
+    # F 和 Q 查询.
+    from django.db.models import F, Q
+    # F 查询，查询所有修改时间大于创建时间的数据.
+    book_obj = Book.objects.filter(modify_time__gt=F("create_time"))
+    # 通过F查询修改原有数据. 所有书的价格乘以2
+    # Book.objects.update(price=F("price")*2)
+    # Q 查询，多个条件之间的或操作.
+    book_q_obj = Book.objects.filter(Q(id__gt=11) | Q(price__lt=200))
+    print(book_q_obj)
