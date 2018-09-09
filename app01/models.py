@@ -33,6 +33,12 @@ class Author(models.Model):
     book = models.ManyToManyField(to="Book")
     create_time = models.DateTimeField(auto_now_add=True)
     modify_time = models.DateTimeField(auto_now=True)
+    # detail = models.OneToOneField(to="AuthorDetail")
+
 
     def __str__(self):
         return "<Author object: {0}>".format(self.name)
+
+class AuthorDetail(models.Model):
+    addr = models.CharField(max_length=128, default="SH")
+    hobby = models.CharField(max_length=64, default="code")

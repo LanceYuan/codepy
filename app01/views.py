@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.http import JsonResponse
 from app01.models import Publisher, Book, Author
+from app01 import models
 from django.views import View
 from django.urls import reverse
 
@@ -101,6 +102,14 @@ def delete_author(requests):
     del_id = requests.GET.get("id")
     author_obj = Author.objects.get(id=del_id)
     author_obj.delete()
+    return redirect("/list_author/")
+
+def delete_action(requests, table_name, row_id):
+    if hasattr(models, table_name):
+        table_obj = getattr(models, table_name)
+        print(table_obj)
+        table_obj.objects.get(id=row_id).delete()
+        return redirect("/list_author/")
     return redirect("/list_author/")
 
 def add_author(requests):

@@ -18,6 +18,7 @@ from django.contrib import admin
 from app01 import views
 
 urlpatterns = [
+    url(r'^$', views.list_book),
     url(r'^admin/', admin.site.urls),
     url(r'^publisher_list/', views.publisher_list),
     url(r'^delete_publisher/(\d+)/', views.delete_publisher),
@@ -35,6 +36,7 @@ urlpatterns = [
     url(r'^add_author/', views.add_author),
     url(r'^edit_author/', views.edit_author),
     url(r'^t_filter/', views.t_filter),
+    url(r'delete/(?P<table_name>\w+)/(?P<row_id>\d+)', views.delete_action),
 
     url(r'index/', views.index, name="index"),
     url(r'upload/', views.upload_file.as_view()),
