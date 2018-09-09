@@ -102,4 +102,3 @@ if __name__ == "__main__":
     # 通过author_detail反向查找Author信息。  对象后面直接跟表名字段名称.
     author_detail_obj = AuthorDetail.objects.first()
     author_detail_name = author_detail_obj.author.name
-
