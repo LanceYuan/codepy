@@ -4,7 +4,7 @@ if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "codepy.settings")
     import django
     django.setup()
-    from app01.models import Book, Publisher, Author
+    from app01.models import Book, Publisher, Author, AuthorDetail
 
     # 查询所有的书籍.
     books = Book.objects.all()
@@ -95,4 +95,11 @@ if __name__ == "__main__":
     # Book.objects.update(price=F("price")*2)
     # Q 查询，多个条件之间的或操作.
     book_q_obj = Book.objects.filter(Q(id__gt=11) | Q(price__lt=200))
-    print(book_q_obj)
+    # 一对一关关联.
+    # 通过author_obj查找祥细信息.
+    author_obj = Author.objects.first()
+    author_detail_lang = author_obj.detail.language
+    # 通过author_detail反向查找Author信息。  对象后面直接跟表名字段名称.
+    author_detail_obj = AuthorDetail.objects.first()
+    author_detail_name = author_detail_obj.author.name
+

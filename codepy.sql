@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50635
 File Encoding         : 65001
 
-Date: 2018-09-08 21:58:19
+Date: 2018-09-09 11:58:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,16 +24,37 @@ CREATE TABLE `app01_author` (
   `name` varchar(64) NOT NULL,
   `create_time` datetime(6) NOT NULL,
   `modify_time` datetime(6) NOT NULL,
+  `detail_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `detail_id` (`detail_id`),
+  CONSTRAINT `app01_author_detail_id_87f03617_fk_app01_authordetail_id` FOREIGN KEY (`detail_id`) REFERENCES `app01_authordetail` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app01_author
 -- ----------------------------
-INSERT INTO `app01_author` VALUES ('3', 'LanceYuan', '2018-09-06 15:48:58.811943', '2018-09-08 19:21:35.614758');
-INSERT INTO `app01_author` VALUES ('7', 'Lily', '2018-09-06 15:48:58.811943', '2018-09-06 15:49:00.121228');
-INSERT INTO `app01_author` VALUES ('8', 'Caption', '2018-09-06 15:48:58.811943', '2018-09-06 15:49:00.121228');
+INSERT INTO `app01_author` VALUES ('9', 'Lance', '2018-09-09 11:41:45.874763', '2018-09-09 11:43:43.417487', '1');
+INSERT INTO `app01_author` VALUES ('11', 'Lily', '2018-09-09 11:44:01.894543', '2018-09-09 11:44:01.894543', '2');
+INSERT INTO `app01_author` VALUES ('12', 'Caption', '2018-09-09 11:45:11.001496', '2018-09-09 11:45:11.001496', '3');
+
+-- ----------------------------
+-- Table structure for app01_authordetail
+-- ----------------------------
+DROP TABLE IF EXISTS `app01_authordetail`;
+CREATE TABLE `app01_authordetail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `addr` varchar(128) NOT NULL,
+  `language` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of app01_authordetail
+-- ----------------------------
+INSERT INTO `app01_authordetail` VALUES ('1', 'SH', 'Python');
+INSERT INTO `app01_authordetail` VALUES ('2', 'SZ', 'Java');
+INSERT INTO `app01_authordetail` VALUES ('3', 'ZZ', 'Go');
 
 -- ----------------------------
 -- Table structure for app01_author_book
@@ -48,18 +69,18 @@ CREATE TABLE `app01_author_book` (
   KEY `app01_author_book_book_id_15e32827_fk_app01_book_id` (`book_id`),
   CONSTRAINT `app01_author_book_author_id_0f6c5f17_fk_app01_author_id` FOREIGN KEY (`author_id`) REFERENCES `app01_author` (`id`),
   CONSTRAINT `app01_author_book_book_id_15e32827_fk_app01_book_id` FOREIGN KEY (`book_id`) REFERENCES `app01_book` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app01_author_book
 -- ----------------------------
-INSERT INTO `app01_author_book` VALUES ('32', '3', '3');
-INSERT INTO `app01_author_book` VALUES ('34', '3', '12');
-INSERT INTO `app01_author_book` VALUES ('22', '7', '3');
-INSERT INTO `app01_author_book` VALUES ('23', '7', '7');
-INSERT INTO `app01_author_book` VALUES ('25', '8', '3');
-INSERT INTO `app01_author_book` VALUES ('26', '8', '6');
-INSERT INTO `app01_author_book` VALUES ('24', '8', '8');
+INSERT INTO `app01_author_book` VALUES ('43', '9', '3');
+INSERT INTO `app01_author_book` VALUES ('42', '9', '6');
+INSERT INTO `app01_author_book` VALUES ('41', '9', '12');
+INSERT INTO `app01_author_book` VALUES ('40', '9', '14');
+INSERT INTO `app01_author_book` VALUES ('44', '11', '7');
+INSERT INTO `app01_author_book` VALUES ('45', '11', '11');
+INSERT INTO `app01_author_book` VALUES ('46', '12', '6');
 
 -- ----------------------------
 -- Table structure for app01_book
@@ -81,15 +102,15 @@ CREATE TABLE `app01_book` (
 -- ----------------------------
 -- Records of app01_book
 -- ----------------------------
-INSERT INTO `app01_book` VALUES ('3', 'Python全栈S10', '6', '2018-09-06 15:49:00.963883', '2018-09-08 15:55:40.051060', '99.99');
-INSERT INTO `app01_book` VALUES ('6', 'Go lang高并发', '3', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978', '199.99');
-INSERT INTO `app01_book` VALUES ('7', '英语ABC', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978', '97.99');
-INSERT INTO `app01_book` VALUES ('8', 'JavaScript万能', '3', '2018-09-06 15:49:00.963883', '2018-09-08 15:55:57.863079', '88.66');
-INSERT INTO `app01_book` VALUES ('9', '战神', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978', '33.33');
-INSERT INTO `app01_book` VALUES ('10', '北漂', '8', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:01.846978', '22.55');
-INSERT INTO `app01_book` VALUES ('11', 'Java并发编程', '6', '2018-09-08 16:35:44.109564', '2018-09-08 16:35:44.110564', '0.99');
-INSERT INTO `app01_book` VALUES ('12', 'Django 开发', '6', '2018-09-08 18:48:50.943385', '2018-09-08 18:48:50.943385', '998.66');
-INSERT INTO `app01_book` VALUES ('14', 'Flask Web开发', '1', '2018-09-08 21:07:52.293483', '2018-09-08 21:07:52.293483', '99.99');
+INSERT INTO `app01_book` VALUES ('3', 'Python全栈S10', '6', '2018-09-06 15:49:00.963883', '2018-09-08 15:55:40.051060', '479.96');
+INSERT INTO `app01_book` VALUES ('6', 'Go lang高并发', '3', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '959.96');
+INSERT INTO `app01_book` VALUES ('7', '英语ABC', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '470.36');
+INSERT INTO `app01_book` VALUES ('8', 'JavaScript万能', '3', '2018-09-06 15:49:00.963883', '2018-09-08 15:55:57.863079', '425.56');
+INSERT INTO `app01_book` VALUES ('9', '战神', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '160.00');
+INSERT INTO `app01_book` VALUES ('10', '北漂', '8', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '108.24');
+INSERT INTO `app01_book` VALUES ('11', 'Java并发编程', '6', '2018-09-08 16:35:44.109564', '2018-09-08 16:35:44.110564', '4.76');
+INSERT INTO `app01_book` VALUES ('12', 'Django 开发', '6', '2018-09-08 18:48:50.943385', '2018-09-08 18:48:50.943385', '666.66');
+INSERT INTO `app01_book` VALUES ('14', 'Flask Web开发', '1', '2018-09-08 21:07:52.293483', '2018-09-08 21:07:52.293483', '479.96');
 
 -- ----------------------------
 -- Table structure for app01_publisher
@@ -161,7 +182,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of auth_permission
@@ -193,6 +214,9 @@ INSERT INTO `auth_permission` VALUES ('24', 'Can delete book', '8', 'delete_book
 INSERT INTO `auth_permission` VALUES ('25', 'Can add author', '9', 'add_author');
 INSERT INTO `auth_permission` VALUES ('26', 'Can change author', '9', 'change_author');
 INSERT INTO `auth_permission` VALUES ('27', 'Can delete author', '9', 'delete_author');
+INSERT INTO `auth_permission` VALUES ('28', 'Can add author detail', '10', 'add_authordetail');
+INSERT INTO `auth_permission` VALUES ('29', 'Can change author detail', '10', 'change_authordetail');
+INSERT INTO `auth_permission` VALUES ('30', 'Can delete author detail', '10', 'delete_authordetail');
 
 -- ----------------------------
 -- Table structure for auth_user
@@ -290,13 +314,14 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_content_type
 -- ----------------------------
 INSERT INTO `django_content_type` VALUES ('1', 'admin', 'logentry');
 INSERT INTO `django_content_type` VALUES ('9', 'app01', 'author');
+INSERT INTO `django_content_type` VALUES ('10', 'app01', 'authordetail');
 INSERT INTO `django_content_type` VALUES ('8', 'app01', 'book');
 INSERT INTO `django_content_type` VALUES ('7', 'app01', 'publisher');
 INSERT INTO `django_content_type` VALUES ('4', 'auth', 'group');
@@ -315,7 +340,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_migrations
@@ -338,6 +363,8 @@ INSERT INTO `django_migrations` VALUES ('15', 'app01', '0002_book', '2018-09-03 
 INSERT INTO `django_migrations` VALUES ('16', 'app01', '0003_author', '2018-09-04 11:47:58.681639');
 INSERT INTO `django_migrations` VALUES ('17', 'app01', '0004_auto_20180906_1548', '2018-09-06 15:49:04.524092');
 INSERT INTO `django_migrations` VALUES ('18', 'app01', '0005_book_price', '2018-09-08 21:05:36.485715');
+INSERT INTO `django_migrations` VALUES ('19', 'app01', '0006_authordetail', '2018-09-09 11:39:25.594740');
+INSERT INTO `django_migrations` VALUES ('20', 'app01', '0007_author_detail', '2018-09-09 11:40:00.390730');
 
 -- ----------------------------
 -- Table structure for django_session
