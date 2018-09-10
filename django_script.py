@@ -102,3 +102,7 @@ if __name__ == "__main__":
     # 通过author_detail反向查找Author信息。  对象后面直接跟表名字段名称.
     author_detail_obj = AuthorDetail.objects.first()
     author_detail_name = author_detail_obj.author.name
+    # 分组+聚合查询.
+    # 以publisher_id进行分组.聚合算平均值.获取出版社书籍的平均价.
+    books_obj = Book.objects.values("publisher_id").annotate(price_avg=Avg("price")).values("publisher__name", "price_avg")
+    print(books_obj)
