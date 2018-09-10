@@ -57,19 +57,36 @@ def edit_publisher(requests):
 
 def list_book(requests):
     page_num = requests.GET.get("page", 1)
-    page_num = int(page_num)
+    # 输入异常情况自动跳转第一页.
+    try:
+        page_num = int(page_num)
+    except Exception:
+        page_num = 1
+    # 获取总页数.
     total_num = Book.objects.all().count()
     pn, mod = divmod(total_num, 10)
     if mod>0:
         pn += 1
+    # 每页多少个分页处理.
+    max_per_page = 11
+    half_max_per_page = max_per_page//2
+    if page_num <= half_max_per_page:
+        start_page = 1
+        end_page = 11
+    else:
+        start_page = page_num - 5
+        end_page = page_num + 6
+
     start_ele = (page_num - 1) * 10
     end_ele = page_num * 10
     data = Book.objects.all()[start_ele:end_ele]
     li = []
-    for i in range(1, pn+1):
-        li.append('<li><a href="/?page={0}">{0}</a></li>'.format(i))
-    # li_html = "".join(li)
-    li_html = ""
+    for i in range(start_page, end_page):
+        if i == page_num:
+            li.append('<li class="active"><a href="/?page={0}">{0}</a></li>'.format(i))
+        else:
+            li.append('<li><a href="/?page={0}">{0}</a></li>'.format(i))
+    li_html = "".join(li)
     return render(requests, "list_book_02.html", {"book_list": data, "li_html": li_html, "pn": pn})
 
 
