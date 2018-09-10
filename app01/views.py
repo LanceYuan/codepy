@@ -56,8 +56,20 @@ def edit_publisher(requests):
     return render(requests, "edit_publisher.html", {"publisher_obj": publisher_obj})
 
 def list_book(requests):
-    data = Book.objects.all()
-    return render(requests, "list_book_02.html", {"book_list": data})
+    page_num = requests.GET.get("page", 1)
+    page_num = int(page_num)
+    total_num = Book.objects.all().count()
+    pn, mod = divmod(total_num, 10)
+    if mod>0:
+        pn += 1
+    start_ele = (page_num - 1) * 10
+    end_ele = page_num * 10
+    data = Book.objects.all()[start_ele:end_ele]
+    li = []
+    for i in range(1, pn+1):
+        li.append('<li><a href="/?page={0}">{0}</a></li>'.format(i))
+    li_html = "".join(li)
+    return render(requests, "list_book_02.html", {"book_list": data, "li_html": li_html})
 
 
 def add_book(requests):
