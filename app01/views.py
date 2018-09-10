@@ -74,8 +74,8 @@ def list_book(requests):
         start_page = 1
         end_page = 11
     else:
-        start_page = page_num - 5
-        end_page = page_num + 6
+        start_page = page_num - half_max_per_page
+        end_page = page_num + half_max_per_page + 1
 
     start_ele = (page_num - 1) * 10
     end_ele = page_num * 10
