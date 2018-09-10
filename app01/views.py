@@ -68,8 +68,9 @@ def list_book(requests):
     li = []
     for i in range(1, pn+1):
         li.append('<li><a href="/?page={0}">{0}</a></li>'.format(i))
-    li_html = "".join(li)
-    return render(requests, "list_book_02.html", {"book_list": data, "li_html": li_html})
+    # li_html = "".join(li)
+    li_html = ""
+    return render(requests, "list_book_02.html", {"book_list": data, "li_html": li_html, "pn": pn})
 
 
 def add_book(requests):
