@@ -34,12 +34,12 @@
         <a class="btn btn-success pull-right" href="/add_book/">添加书籍</a>
         <nav aria-label="Page navigation pull-left">
             <ul class="pagination">
-                <li id="ul1">
+                <li id="li1">
                     <a href="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                {{ li_html|safe }}
+                {#                {{ li_html|safe }}#}
                 <li>
                     <a href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -48,6 +48,20 @@
             </ul>
         </nav>
     </div>
+    <span id="s1" pn="{{ pn }}"></span>
 {% endblock %}
 {% block myscript %}
+    <script>
+        $(document).ready(function () {
+            var pnStr = $("#s1").attr("pn");
+            var pnInt = parseInt(pnStr);
+            for (var i = pnInt; i > 0; i--) {
+                var liEle = document.createElement("li");
+                var aEle = document.createElement("a");
+                $(aEle).text(i).attr("href", "/?page=".concat(i));
+                $(liEle).append(aEle);
+                $("#li1").after(liEle);
+            }
+        })
+    </script>
 {% endblock %}
