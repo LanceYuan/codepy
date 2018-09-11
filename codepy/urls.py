@@ -18,7 +18,7 @@ from django.contrib import admin
 from app01 import views
 
 urlpatterns = [
-    url(r'^$', views.list_book),
+    url(r'^$', views.list_book, name="home"),
     url(r'^admin/', admin.site.urls),
     url(r'^publisher_list/', views.publisher_list),
     url(r'^delete_publisher/(\d+)/', views.delete_publisher),
@@ -40,6 +40,7 @@ urlpatterns = [
 
     url(r'index/', views.index, name="index"),
     url(r'upload/', views.upload_file.as_view()),
+    url(r'login/', views.login, name="login"),
 
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),

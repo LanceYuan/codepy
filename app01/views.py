@@ -4,8 +4,21 @@ from app01.models import Publisher, Book, Author
 from app01 import models
 from django.views import View
 from django.urls import reverse
+from functools import wraps
+
+def login_require(func):
+    @wraps(func)
+    def inner(requests, *args, **kwargs):
+        login_flag = requests.COOKIES.get("is_login", None)
+        if login_flag == "1":
+            ret = func(requests, *args, **kwargs)
+        else:
+            return redirect(reverse("login"))
+        return ret
+    return inner
 
 # Create your views here.
+@login_require
 def publisher_list(requests):
     data = Publisher.objects.all().order_by("id")
     return render(requests, "list_publisher_02.html", {"publisher_list": data})
@@ -55,6 +68,7 @@ def edit_publisher(requests):
     publisher_obj = get_object_or_404(Publisher, id=publisher_id)
     return render(requests, "edit_publisher.html", {"publisher_obj": publisher_obj})
 
+@login_require
 def list_book(requests):
     page_num = requests.GET.get("page", 1)
     # 输入异常情况自动跳转第一页.
@@ -122,7 +136,7 @@ def edit_book(requests):
     publisher_obj = Publisher.objects.all()
     return render(requests, "edit_book.html", {"book_obj": book_obj, "publisher_obj": publisher_obj})
 
-
+@login_require
 def list_author(requests):
     data = Author.objects.all().order_by("id")
     return render(requests, "list_author_02.html", {"list_author": data})
@@ -204,3 +218,14 @@ class upload_file(View):
             for chunk in file_obj.chunks():
                 fd.write(chunk)
         return HttpResponse("upload done.")
+
+def login(requests):
+    if requests.method == "POST":
+        username = requests.POST.get("username", None)
+        password = requests.POST.get("password", None)
+        if username == "lance" and password == "password":
+            response = redirect(reverse("home"))
+            response.set_cookie("is_login", "1")
+            return response
+        return redirect(reverse("login"))
+    return render(requests, "login.html")
