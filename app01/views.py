@@ -9,11 +9,12 @@ from functools import wraps
 def login_require(func):
     @wraps(func)
     def inner(requests, *args, **kwargs):
+        url_prev = requests.path_info
         login_flag = requests.COOKIES.get("is_login", None)
         if login_flag == "1":
             ret = func(requests, *args, **kwargs)
         else:
-            return redirect(reverse("login"))
+            return redirect("/login/?next={}".format(url_prev))
         return ret
     return inner
 
@@ -223,8 +224,9 @@ def login(requests):
     if requests.method == "POST":
         username = requests.POST.get("username", None)
         password = requests.POST.get("password", None)
+        next_url = requests.GET.get("next")
         if username == "lance" and password == "password":
-            response = redirect(reverse("home"))
+            response = redirect(next_url)
             response.set_cookie("is_login", "1")
             return response
         return redirect(reverse("login"))
