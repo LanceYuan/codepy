@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'index/', views.index, name="index"),
     url(r'upload/', views.upload_file.as_view()),
     url(r'login/', views.login, name="login"),
+    url(r'logout/', views.logout, name="logout"),
 
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),

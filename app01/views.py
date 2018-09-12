@@ -5,12 +5,15 @@ from app01 import models
 from django.views import View
 from django.urls import reverse
 from functools import wraps
+from django.utils.decorators import method_decorator  # 类的方法装饰器.
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 def login_require(func):
-    @wraps(func)
+    @wraps(func) # 装饰器函数修复.
     def inner(requests, *args, **kwargs):
         url_prev = requests.path_info
-        login_flag = requests.COOKIES.get("is_login", None)
+        # login_flag = requests.COOKIES.get("is_login", None)
+        login_flag = requests.session.get("is_login", None)
         if login_flag == "1":
             ret = func(requests, *args, **kwargs)
         else:
@@ -46,7 +49,7 @@ def add_publisher(requests):
 
 
 class AddPublisher(View):
-
+    @method_decorator(login_require)  # 类中方法装饰器.
     def get(self, requests):
         return render(requests, "add_publisher.html")
 
@@ -220,14 +223,20 @@ class upload_file(View):
                 fd.write(chunk)
         return HttpResponse("upload done.")
 
+@csrf_protect  # 给指定函数加上CSRF_Token校验.
 def login(requests):
     if requests.method == "POST":
         username = requests.POST.get("username", None)
         password = requests.POST.get("password", None)
-        next_url = requests.GET.get("next")
+        next_url = requests.GET.get("next", "/")
+        requests.session["is_login"] = "1" # 设置Session. session对象保存在requests对象中.
         if username == "lance" and password == "password":
             response = redirect(next_url)
-            response.set_cookie("is_login", "1")
+            # response.set_cookie("is_login", "1") # 设置Cookie.
             return response
         return redirect(reverse("login"))
     return render(requests, "login.html")
+
+def logout(requests):
+    requests.session.flush() # 清除Session以及数据库中存储的数据.
+    return redirect(reverse("login"))

@@ -10,6 +10,7 @@
 <body>
     <div class="container">
       <form class="form-signin" action="" method="post">
+          {% csrf_token %}
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" id="inputEmail" class="form-control" placeholder="username" required="" autofocus="" name="username">
