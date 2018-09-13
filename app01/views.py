@@ -254,6 +254,7 @@ def ajax_get(requests):
     response.setdefault("Access-Control-Allow-Origin", "*") # 解决跨域问题.
     return response
 
+@csrf_protect
 def ajax_post(requests):
     i1 = requests.POST.get("i1", 0)
     i2 = requests.POST.get("i2", 0)
