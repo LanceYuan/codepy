@@ -240,3 +240,12 @@ def login(requests):
 def logout(requests):
     requests.session.flush() # 清除Session以及数据库中存储的数据.
     return redirect(reverse("login"))
+
+
+def ajax_add(requests):
+    i1 = requests.GET.get("i1", 0)
+    i2 = requests.GET.get("i2", 0)
+    i3 = int(i1) + int(i2)
+    response = HttpResponse(i3)
+    response.setdefault("Access-Control-Allow-Origin", "*") # 解决跨域问题.
+    return response

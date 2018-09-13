@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<input type="text" id="i1">+
+<input type="text" id="i2">=
+<input type="text" id="i3">
+<input type="button" id="i4" value="提交">
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#i4").on("click", function () {
+            var i1 = $("#i1").val();
+            var i2 = $("#i2").val();
+            console.log(i1, i2);
+            $.ajax({
+                url: "http://127.0.0.1:8000/ajax_add/",
+                type: "GET",
+                data: {"i1": i1, "i2": i2},
+                success: function (args) {
+                    $("#i3").val(args);
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>
