@@ -242,9 +242,21 @@ def logout(requests):
     return redirect(reverse("login"))
 
 
-def ajax_add(requests):
+def ajax_html(requests):
+    return render(requests, "ajax_html.html")
+
+
+def ajax_get(requests):
     i1 = requests.GET.get("i1", 0)
     i2 = requests.GET.get("i2", 0)
+    i3 = int(i1) + int(i2)
+    response = HttpResponse(i3)
+    response.setdefault("Access-Control-Allow-Origin", "*") # 解决跨域问题.
+    return response
+
+def ajax_post(requests):
+    i1 = requests.POST.get("i1", 0)
+    i2 = requests.POST.get("i2", 0)
     i3 = int(i1) + int(i2)
     response = HttpResponse(i3)
     response.setdefault("Access-Control-Allow-Origin", "*") # 解决跨域问题.

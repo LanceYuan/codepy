@@ -14,7 +14,7 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        $("#i4").on("click", function () {
+        /*$("#i4").on("click", function () {
             var i1 = $("#i1").val();
             var i2 = $("#i2").val();
             console.log(i1, i2);
@@ -26,6 +26,16 @@
                     $("#i3").val(args);
                 }
             })
+        })*/
+        var i1 = $("#i1").val();
+        var i2 = $("#i2").val();
+        $.ajax({
+            url: "/ajax_add/",
+            type: "POST",
+            data: {"i1": i1, "i2": i2},
+            success: function (args) {
+                alert(args);
+            }
         })
     })
 </script>
