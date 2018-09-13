@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'ajax_html', views.ajax_html),
     url(r'ajax_get', views.ajax_get),
     url(r'ajax_post', views.ajax_post),
+    url(r'serialization', views.serialization),
 
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),

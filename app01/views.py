@@ -7,6 +7,7 @@ from django.urls import reverse
 from functools import wraps
 from django.utils.decorators import method_decorator  # 类的方法装饰器.
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+import json
 
 def login_require(func):
     @wraps(func) # 装饰器函数修复.
@@ -262,3 +263,10 @@ def ajax_post(requests):
     response = HttpResponse(i3)
     response.setdefault("Access-Control-Allow-Origin", "*") # 解决跨域问题.
     return response
+
+
+def serialization(requests):
+    from django.core import serializers
+    data = Book.objects.all()
+    s_data = serializers.serialize("json", data)
+    return HttpResponse(s_data)
