@@ -61,7 +61,10 @@
                 $(aEle).text(i).attr("href", "/?page=".concat(i));
                 $(liEle).append(aEle);
                 $("#li1").after(liEle);
-            }
+            };
+            var csrfToken = $.cookie("csrftoken");
+            console.log(csrfToken);
         })
+
     </script>
 {% endblock %}

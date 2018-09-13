@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +13,10 @@
 <input type="text" id="i3">
 <input type="button" id="i4" value="AJAX_GET">
 <input type="button" id="i5" value="AJAX_POST">
+<input type="button" id="i6" value="AJAX_Cookie">
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script src="/static/jquery.cookie.js"></script>
 <script>
     $(document).ready(function () {
         $("#i4").on("click", function () {
@@ -42,7 +45,24 @@
                     $("#i3").val(args);
                 }
             })
-        })
+        });
+        $("#i6").on("click", function () {
+            var i1 = $("#i1").val();
+            var i2 = $("#i2").val();
+            var csrfToken = $.cookie("csrftoken");
+            console.log(csrfToken);
+            $.ajax({
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-CSRFToken", csrfToken);
+                },
+                url: "/ajax_post/",
+                type: "POST",
+                data: {"i1": i1, "i2": i2},
+                success: function (args) {
+                    $("#i3").val(args);
+                }
+            })
+        });
     })
 </script>
 </body>
