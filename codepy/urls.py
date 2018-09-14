@@ -48,6 +48,9 @@ urlpatterns = [
     url(r'ajax_post', views.ajax_post),
     url(r'serialization', views.serialization),
 
+    # form 组件
+    url(r'^register/$', views.register),
+
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),
 ]

@@ -8,6 +8,7 @@ from functools import wraps
 from django.utils.decorators import method_decorator  # 类的方法装饰器.
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json
+from django import forms
 
 
 def login_require(func):
@@ -287,3 +288,12 @@ def ajax_deletebook(requests):
     Book.objects.filter(id=del_id).delete()
     print(del_id)
     return HttpResponse(location_url)
+
+
+class RegForm(forms.Form):
+    name = forms.CharField(max_length=32)
+    pwd = forms.CharField(max_length=32)
+
+def register(requests):
+    form_obj = RegForm()
+    return render(requests, "register.html", {"form_obj": form_obj})
