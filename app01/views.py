@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator  # 类的方法装饰器.
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json
 
+
 def login_require(func):
     @wraps(func) # 装饰器函数修复.
     def inner(requests, *args, **kwargs):
@@ -22,7 +23,7 @@ def login_require(func):
         return ret
     return inner
 
-# Create your views here.
+
 @login_require
 def publisher_list(requests):
     data = Publisher.objects.all().order_by("id")
@@ -72,6 +73,7 @@ def edit_publisher(requests):
     # publisher_obj = Publisher.objects.get(id=publisher_id)
     publisher_obj = get_object_or_404(Publisher, id=publisher_id)
     return render(requests, "edit_publisher.html", {"publisher_obj": publisher_obj})
+
 
 @login_require
 def list_book(requests):
@@ -141,6 +143,7 @@ def edit_book(requests):
     publisher_obj = Publisher.objects.all()
     return render(requests, "edit_book.html", {"book_obj": book_obj, "publisher_obj": publisher_obj})
 
+
 @login_require
 def list_author(requests):
     data = Author.objects.all().order_by("id")
@@ -153,6 +156,7 @@ def delete_author(requests):
     author_obj.delete()
     return redirect("/list_author/")
 
+
 def delete_action(requests, table_name, row_id):
     if hasattr(models, table_name):
         table_obj = getattr(models, table_name)
@@ -160,6 +164,7 @@ def delete_action(requests, table_name, row_id):
         table_obj.objects.get(id=row_id).delete()
         return redirect("/list_author/")
     return redirect("/list_author/")
+
 
 def add_author(requests):
     if requests.method == "POST":
@@ -170,6 +175,7 @@ def add_author(requests):
         return redirect("/list_author/")
     books = Book.objects.all()
     return render(requests, "add_author.html", {"list_book": books})
+
 
 def edit_author(requests):
     if requests.method == "POST":
@@ -224,6 +230,7 @@ class upload_file(View):
                 fd.write(chunk)
         return HttpResponse("upload done.")
 
+
 @csrf_protect  # 给指定函数加上CSRF_Token校验.
 def login(requests):
     if requests.method == "POST":
@@ -237,6 +244,7 @@ def login(requests):
             return response
         return redirect(reverse("login"))
     return render(requests, "login.html")
+
 
 def logout(requests):
     requests.session.flush() # 清除Session以及数据库中存储的数据.
@@ -254,6 +262,7 @@ def ajax_get(requests):
     response = HttpResponse(i3)
     response.setdefault("Access-Control-Allow-Origin", "*") # 解决跨域问题.
     return response
+
 
 @csrf_protect
 def ajax_post(requests):
