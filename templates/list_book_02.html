@@ -25,7 +25,8 @@
                     <td>{{ book.publisher.name }}</td>
                     <td>
                         <a class="btn btn-info" href="/edit_book/?id={{ book.id }}">编辑</a>
-                        <a class="btn btn-danger" href="/delete_book/?id={{ book.id }}">删除</a>
+                        {#                        <a class="btn btn-danger" href="/delete_book/?id={{ book.id }}">删除</a>#}
+                        <button class="btn btn-danger del">删除</button>
                     </td>
                 </tr>
             {% endfor %}
@@ -61,9 +62,33 @@
                 $(aEle).text(i).attr("href", "/?page=".concat(i));
                 $(liEle).append(aEle);
                 $("#li1").after(liEle);
-            };
+            }
+            ;
             var csrfToken = $.cookie("csrftoken");
             console.log(csrfToken);
+            $(".del").on("click", function () {
+                var eleId = $(this).parent().parent().children().eq(1).text();
+                swal({
+                        title: "Are you sure?",
+                        text: "Your will not be able to recover this imaginary file!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes, delete it!",
+                        closeOnConfirm: false
+                    },
+                    function () { // 确认删除之后执行的函数.
+                        $.ajax({
+                            url: "/ajax_deletebook/",
+                            type: "POST",
+                            data: {"del_id": eleId, location_url: location.href},
+                            success: function (args) {
+                                swal("Deleted!", "Your data has been deleted.", "success");
+                                location.href = args;  // 返回之前请求的页面.
+                            }
+                        })
+                    });
+            });
         })
 
     </script>

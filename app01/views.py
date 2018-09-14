@@ -279,3 +279,11 @@ def serialization(requests):
     data = Book.objects.all()
     s_data = serializers.serialize("json", data)
     return HttpResponse(s_data)
+
+
+def ajax_deletebook(requests):
+    location_url = requests.POST.get("location_url")
+    del_id = requests.POST.get("del_id")
+    Book.objects.filter(id=del_id).delete()
+    print(del_id)
+    return HttpResponse(location_url)
