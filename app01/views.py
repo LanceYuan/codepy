@@ -8,6 +8,9 @@ from functools import wraps
 from django.utils.decorators import method_decorator  # 类的方法装饰器.
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json
+from django import forms
+from django.forms import widgets
+
 
 def login_require(func):
     @wraps(func) # 装饰器函数修复.
@@ -278,3 +281,21 @@ def ajax_deletebook(requests):
     Book.objects.filter(id=del_id).delete()
     print(del_id)
     return HttpResponse(location_url)
+
+
+class BaseForm(forms.Form):
+    from datetime import datetime
+    user = forms.CharField(initial="Lance", max_length=12, label="用户名", required=True)
+    pwd = forms.CharField(label="密码", required=True, widget=widgets.PasswordInput())
+    day = forms.DateField(initial=datetime.today)
+    gender = forms.ChoiceField(
+        choices=((1, "male"), (2, "female")),
+        label="性别",
+        initial=1,
+        widget=widgets.RadioSelect
+    )
+
+
+def base_form(requests):
+    form_obj = BaseForm()
+    return render(requests, "base_form.html", {"form_boj": form_obj})
