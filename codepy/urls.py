@@ -41,13 +41,15 @@ urlpatterns = [
 
     url(r'index/', views.index, name="index"),
     url(r'upload/', views.upload_file.as_view()),
-    url(r'login/', views.login, name="login"),
-    url(r'logout/', views.logout, name="logout"),
+    url(r'^login/$', views.login, name="login"),
+    url(r'^logout/$', views.logout, name="logout"),
     url(r'ajax_html', views.ajax_html),
     url(r'ajax_get', views.ajax_get),
     url(r'ajax_post', views.ajax_post),
     url(r'serialization', views.serialization),
     url(r'base_form', views.base_form),
+    url(r'^auth_login/$', views.auth_login),
+    url(r'^auth_logout/$', views.auth_logout),
 
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),

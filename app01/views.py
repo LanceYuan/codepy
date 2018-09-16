@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json
 from django import forms
 from django.forms import widgets
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
 
 def login_require(func):
@@ -211,12 +213,11 @@ def index(requests):
     url_index = reverse("index")
     print(url_index)
     response = JsonResponse({"name": "lance"})
-    response.setdefault("Access-Control-Allow-Origin", "*")
     return response
 
 
 class upload_file(View):
-
+    @method_decorator(login_required)
     def get(self, requests):
         return render(requests, "upload_file.html")
 
@@ -299,3 +300,20 @@ class BaseForm(forms.Form):
 def base_form(requests):
     form_obj = BaseForm()
     return render(requests, "base_form.html", {"form_boj": form_obj})
+
+
+def auth_login(requests):
+    if requests.method == "POST":
+        username = requests.POST.get("username")
+        password = requests.POST.get("password")
+        # 判断用户名密码是否正确.
+        user = auth.authenticate(username=username, password=password)
+        if user:
+            # 在requests对象中添加user属性.
+            auth.login(requests, user)
+            return redirect("/upload/")
+    return render(requests, "auth_login.html")
+
+def auth_logout(requests):
+    auth.logout(requests)
+    return redirect("/auth_login/")
