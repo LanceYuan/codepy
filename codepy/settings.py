@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'my_middleware.my_middleware.M1', # 注册自定义中间件.
+    'my_middleware.my_middleware.M2',
 ]
 
 ROOT_URLCONF = 'codepy.urls'
