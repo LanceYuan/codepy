@@ -45,3 +45,10 @@ class AuthorDetail(models.Model):
 
     def __str__(self):
         return "<AuthorDetail_object  {0} >".format(self.language)
+
+
+class Userinfo(models.Model):
+    username = models.CharField(max_length=32, null=False, unique=True)
+    password = models.CharField(max_length=64, null=False)
+    email = models.CharField(max_length=32, null=True)
+    avatar = models.FileField(upload_to="upload/", null=True)

@@ -4,13 +4,56 @@
     <meta charset="UTF-8">
     <title>register</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+    <style>
+        form {
+            margin-top: 70px;
+        }
+    </style>
 </head>
 <body>
-<form action="">
-    {% csrf_token %}
-    {{ form_obj.as_p }}
-    <input type="submit">
-</form>
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal" action="/register/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="{{ form_obj.username.id_for_label }}" class="col-sm-2 control-label">{{ form_obj.username.label }}</label>
+                <div class="col-sm-6">
+                    {{ form_obj.username }}
+                    <span>{{ form_obj.username.errors.0 }}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form_obj.password.id_for_label }}" class="col-sm-2 control-label">{{ form_obj.password.label }}</label>
+                <div class="col-sm-6">
+                    {{ form_obj.password }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form_obj.chkpwd.id_for_label }}" class="col-sm-2 control-label">{{ form_obj.chkpwd.label }}</label>
+                <div class="col-sm-6">
+                    {{ form_obj.chkpwd }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form_obj.email.id_for_label }}" class="col-sm-2 control-label">{{ form_obj.email.label }}</label>
+                <div class="col-sm-6">
+                    {{ form_obj.email }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form_obj.avatar.id_for_label }}" class="col-sm-2 control-label">{{ form_obj.avatar.label }}</label>
+                <div class="col-sm-6">
+                    {{ form_obj.avatar }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
 </body>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.http import JsonResponse
-from app01.models import Publisher, Book, Author
+from app01.models import Publisher, Book, Author, Userinfo
 from app01 import models
 from django.views import View
 from django.urls import reverse
@@ -297,30 +297,53 @@ def ajax_deletebook(requests):
 
 
 class RegForm(forms.Form):
-    name = forms.CharField(max_length=32)
-    pwd = forms.CharField(max_length=32)
-
-def register(requests):
-    form_obj = RegForm()
-    return render(requests, "register.html", {"form_obj": form_obj})
-
-
-class BaseForm(forms.Form):
-    from datetime import datetime
-    user = forms.CharField(initial="Lance", max_length=12, label="用户名", required=True)
-    pwd = forms.CharField(label="密码", required=True, widget=widgets.PasswordInput())
-    day = forms.DateField(initial=datetime.today)
-    gender = forms.ChoiceField(
-        choices=((1, "male"), (2, "female")),
-        label="性别",
-        initial=1,
-        widget=widgets.RadioSelect
+    username = forms.CharField(
+        max_length=32,
+        label="用户名",
+        required=True,
+        widget=forms.widgets.TextInput(attrs={"class": "form-control"}),
+        error_messages={"required": "用户名不能为空"}
+    )
+    password = forms.CharField(
+        max_length=64,
+        label="密码",
+        required=True,
+        widget=forms.widgets.PasswordInput(attrs={"class": "form-control"}),
+        error_messages={"required": "密码不能为空"}
+    )
+    chkpwd = forms.CharField(
+        max_length=64,
+        label="确认密码",
+        required=True,
+        widget=forms.widgets.PasswordInput(attrs={"class": "form-control"}),
+        error_messages={"required": "确认密码不能为空"}
+    )
+    email = forms.CharField(
+        max_length=32,
+        label="邮箱",
+        required=False,
+        widget=forms.widgets.EmailInput(attrs={"class": "form-control"})
+    )
+    avatar = forms.FileField(
+        label="图像",
+        widget=forms.widgets.FileInput()
     )
 
-
-def base_form(requests):
-    form_obj = BaseForm()
-    return render(requests, "base_form.html", {"form_boj": form_obj})
+def register(requests):
+    if requests.method == "POST":
+        form_obj = RegForm(requests.POST, requests.FILES)
+        if form_obj.is_valid():
+            data = form_obj.cleaned_data
+            if data["password"] == data["chkpwd"]:
+                data.pop("chkpwd")
+                Userinfo.objects.create(**data)
+                return HttpResponse("register success.")
+            else:
+                return HttpResponse("register failure.")
+        else:
+            return render(requests, "register.html", {"form_obj": form_obj})
+    form_obj = RegForm()
+    return render(requests, "register.html", {"form_obj": form_obj})
 
 
 def auth_login(requests):
