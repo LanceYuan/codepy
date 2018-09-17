@@ -9,6 +9,10 @@ from django.utils.decorators import method_decorator  # 类的方法装饰器.
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json
 from django import forms
+from django.forms import widgets
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+
 
 
 def login_require(func):
@@ -215,12 +219,11 @@ def index(requests):
     url_index = reverse("index")
     print(url_index)
     response = JsonResponse({"name": "lance"})
-    response.setdefault("Access-Control-Allow-Origin", "*")
     return response
 
 
 class upload_file(View):
-
+    @method_decorator(login_required)
     def get(self, requests):
         return render(requests, "upload_file.html")
 
@@ -297,3 +300,38 @@ class RegForm(forms.Form):
 def register(requests):
     form_obj = RegForm()
     return render(requests, "register.html", {"form_obj": form_obj})
+
+
+class BaseForm(forms.Form):
+    from datetime import datetime
+    user = forms.CharField(initial="Lance", max_length=12, label="用户名", required=True)
+    pwd = forms.CharField(label="密码", required=True, widget=widgets.PasswordInput())
+    day = forms.DateField(initial=datetime.today)
+    gender = forms.ChoiceField(
+        choices=((1, "male"), (2, "female")),
+        label="性别",
+        initial=1,
+        widget=widgets.RadioSelect
+    )
+
+
+def base_form(requests):
+    form_obj = BaseForm()
+    return render(requests, "base_form.html", {"form_boj": form_obj})
+
+
+def auth_login(requests):
+    if requests.method == "POST":
+        username = requests.POST.get("username")
+        password = requests.POST.get("password")
+        # 判断用户名密码是否正确.
+        user = auth.authenticate(username=username, password=password)
+        if user:
+            # 在requests对象中添加user属性.
+            auth.login(requests, user)
+            return redirect("/upload/")
+    return render(requests, "auth_login.html")
+
+def auth_logout(requests):
+    auth.logout(requests)
+    return redirect("/auth_login/")
