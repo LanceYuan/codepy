@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'base_form', views.base_form),
     url(r'^auth_login/$', views.auth_login),
     url(r'^auth_logout/$', views.auth_logout),
+    url(r'^auth_reg/$', views.auth_reg),
 
     # form 组件
     url(r'^register/$', views.register),

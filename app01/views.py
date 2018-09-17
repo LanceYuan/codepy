@@ -12,6 +12,7 @@ from django import forms
 from django.forms import widgets
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 
@@ -215,6 +216,7 @@ def t_filter(requests):
     return render(requests, "t_filter.html", data)
 
 
+@login_required
 def index(requests):
     url_index = reverse("index")
     print(url_index)
@@ -225,7 +227,8 @@ def index(requests):
 class upload_file(View):
     @method_decorator(login_required)
     def get(self, requests):
-        return render(requests, "upload_file.html")
+        user = requests.user
+        return render(requests, "upload_file.html", {"user": user})
 
     def post(self, requests):
         file_obj = requests.FILES.get("file_name")
@@ -331,6 +334,23 @@ def auth_login(requests):
             auth.login(requests, user)
             return redirect("/upload/")
     return render(requests, "auth_login.html")
+
+
+def auth_reg(requests):
+    if requests.method == "POST":
+        username = requests.POST.get("username")
+        password = requests.POST.get("password")
+        chkpwd = requests.POST.get("chkpwd")
+        email = requests.POST.get("email")
+        user_obj = User.objects.filter(username=username)
+        if (not user_obj) and password == chkpwd:
+            user_obj = User.objects.create_user(username=username, password=password, email=email)
+            user_obj.save()
+            # 注册完并登陆
+            auth.login(requests, user_obj)
+            return redirect("/upload/")
+    return render(requests, "auth_reg.html")
+
 
 def auth_logout(requests):
     auth.logout(requests)
