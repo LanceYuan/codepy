@@ -135,4 +135,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+# 设置需要认证的功能自动跳转的路由.
 LOGIN_URL = "/auth_login/"
