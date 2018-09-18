@@ -8,6 +8,9 @@
         form {
             margin-top: 70px;
         }
+        li {
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +34,12 @@
                 <label for="{{ form_obj.chkpwd.id_for_label }}" class="col-sm-2 control-label">{{ form_obj.chkpwd.label }}</label>
                 <div class="col-sm-6">
                     {{ form_obj.chkpwd }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form_obj.gender.id_for_label }}" class="col-sm-2 control-label">{{ form_obj.gender.label }}</label>
+                <div class="col-sm-6">
+                    {{ form_obj.gender }}
                 </div>
             </div>
             <div class="form-group">

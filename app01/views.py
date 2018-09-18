@@ -216,7 +216,7 @@ def t_filter(requests):
     return render(requests, "t_filter.html", data)
 
 
-@login_required
+# @login_required
 def index(requests):
     url_index = reverse("index")
     print(url_index)
@@ -299,13 +299,15 @@ def ajax_deletebook(requests):
 class RegForm(forms.Form):
     username = forms.CharField(
         max_length=32,
+        min_length=8,
         label="用户名",
         required=True,
         widget=forms.widgets.TextInput(attrs={"class": "form-control"}),
-        error_messages={"required": "用户名不能为空"}
+        error_messages={"required": "用户名不能为空", "min_length": "用户名不能小于8位"}
     )
     password = forms.CharField(
         max_length=64,
+        min_length=8,
         label="密码",
         required=True,
         widget=forms.widgets.PasswordInput(attrs={"class": "form-control"}),
@@ -313,10 +315,17 @@ class RegForm(forms.Form):
     )
     chkpwd = forms.CharField(
         max_length=64,
+        min_length=8,
         label="确认密码",
         required=True,
         widget=forms.widgets.PasswordInput(attrs={"class": "form-control"}),
         error_messages={"required": "确认密码不能为空"}
+    )
+    gender = forms.ChoiceField(
+        choices=((1, "男"), (0, "女")),
+        initial=1,
+        label="性别",
+        widget=forms.widgets.RadioSelect()
     )
     email = forms.CharField(
         max_length=32,

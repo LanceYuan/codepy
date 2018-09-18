@@ -52,3 +52,4 @@ class Userinfo(models.Model):
     password = models.CharField(max_length=64, null=False)
     email = models.CharField(max_length=32, null=True)
     avatar = models.FileField(upload_to="upload/", null=True)
+    gender = models.IntegerField(default=1, null=False)
