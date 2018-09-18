@@ -57,6 +57,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-default">Submit</button>
+                    <button id="s1" type="button" class="btn btn-default">RegAjax</button>
                 </div>
             </div>
         </form>
@@ -65,5 +66,32 @@
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script>
+    $("#s1").on("click", function () {
+        var username = $("#{{ form_obj.username.id_for_label }}").val();
+        var password = $("#{{ form_obj.password.id_for_label }}").val();
+        var chkpwd = $("#{{ form_obj.chkpwd.id_for_label }}").val();
+        var gender = $("#{{ form_obj.gender.id_for_label }}").val();
+        var email = $("#{{ form_obj.email.id_for_label }}").val();
+        var files = $("#{{ form_obj.avatar.id_for_label }}")[0].files[0];
+        var formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("chkpwd", chkpwd);
+        formData.append("gender", gender);
+        formData.append("email", email);
+        formData.append("avatar", files);
+        $.ajax({
+            url: "/register/",
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (args) {
+                console.log(args);
+            }
+        })
+    })
+</script>
 </body>
 </html>

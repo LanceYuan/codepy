@@ -350,7 +350,9 @@ def register(requests):
             else:
                 return HttpResponse("register failure.")
         else:
-            return render(requests, "register.html", {"form_obj": form_obj})
+            # return render(requests, "register.html", {"form_obj": form_obj})
+            response = {"msg": form_obj.errors}
+            return JsonResponse(response)
     form_obj = RegForm()
     return render(requests, "register.html", {"form_obj": form_obj})
 
