@@ -4,13 +4,13 @@ if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "codepy.settings")
     import django
     django.setup()
-    from app01.models import Book, Publisher, Author, AuthorDetail
+    from app01.models import Book, Publisher, Author, AuthorDetail, Userinfo
 
     # 查询所有的书籍.
     books = Book.objects.all()
     # print(books)
     book_one = Book.objects.get(id=3)
-    book_two = Book.objects.get(name="战神")
+    book_two = Book.objects.get(name="Python全栈S10")
     # 查询ID大于1且小于10的书籍.
     book_three = Book.objects.filter(id__gt=1, id__lt=10)
     # 返回QuerySet指定字段的字典形式. 默认返回所有字段.
@@ -105,4 +105,7 @@ if __name__ == "__main__":
     # 分组+聚合查询.
     # 以publisher_id进行分组.聚合算平均值.获取出版社书籍的平均价.
     books_obj = Book.objects.values("publisher_id").annotate(price_avg=Avg("price")).values("publisher__name", "price_avg")
-    print(books_obj)
+
+    # 文件对象.
+    user_obj = Userinfo.objects.first()
+    print(user_obj.avatar.url)

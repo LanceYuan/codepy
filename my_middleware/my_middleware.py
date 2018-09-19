@@ -1,7 +1,7 @@
 from django.utils.deprecation import MiddlewareMixin
 from django.shortcuts import HttpResponse
 
-
+#
 class M1(MiddlewareMixin):
     # 必须传入request对象
     def process_request(self, request):
@@ -16,7 +16,7 @@ class M1(MiddlewareMixin):
     # 在视图函数之前执行.
     def process_view(self, request, view_func, view_args, view_kwargs):
         print("M1 Process_view")
-        # print(view_func.__name__, view_args, view_kwargs)
+        print(view_func.__name__, view_args, view_kwargs)
 
 
 class M2(MiddlewareMixin):

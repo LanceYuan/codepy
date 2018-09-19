@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from app01 import views
+from django.views.static import serve
+from django.conf import settings
 
 urlpatterns = [
     url(r'^$', views.list_book, name="home"),
@@ -40,10 +42,10 @@ urlpatterns = [
     url(r'delete/(?P<table_name>\w+)/(?P<row_id>\d+)', views.delete_action),
 
     url(r'index/', views.index, name="index"),
-    url(r'upload/', views.upload_file.as_view()),
+    url(r'^upload/$', views.upload_file.as_view()),
     url(r'^login/$', views.login, name="login"),
     url(r'^logout/$', views.logout, name="logout"),
-    url(r'ajax_html', views.ajax_html),
+    url(r'^ajax_html/$', views.ajax_html),
     url(r'ajax_get', views.ajax_get),
     url(r'ajax_post', views.ajax_post),
     url(r'serialization', views.serialization),
@@ -53,6 +55,8 @@ urlpatterns = [
 
     # form 组件
     url(r'^register/$', views.register),
+    # media相关的路由设置
+    url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
 
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),

@@ -135,5 +135,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # 设置需要认证的功能自动跳转的路由.
 LOGIN_URL = "/auth_login/"
