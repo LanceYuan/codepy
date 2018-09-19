@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localpc
-Source Server Version : 50635
+Source Server         : localhost
+Source Server Version : 50723
 Source Host           : localhost:3306
 Source Database       : codepy
 
 Target Server Type    : MYSQL
-Target Server Version : 50635
+Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-09-09 11:58:57
+Date: 2018-09-18 16:21:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -97,7 +97,7 @@ CREATE TABLE `app01_book` (
   UNIQUE KEY `name` (`name`),
   KEY `app01_book_publisher_id_e407867a_fk_app01_publisher_id` (`publisher_id`),
   CONSTRAINT `app01_book_publisher_id_e407867a_fk_app01_publisher_id` FOREIGN KEY (`publisher_id`) REFERENCES `app01_publisher` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app01_book
@@ -106,11 +106,12 @@ INSERT INTO `app01_book` VALUES ('3', 'Python全栈S10', '6', '2018-09-06 15:49:
 INSERT INTO `app01_book` VALUES ('6', 'Go lang高并发', '3', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '959.96');
 INSERT INTO `app01_book` VALUES ('7', '英语ABC', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '470.36');
 INSERT INTO `app01_book` VALUES ('8', 'JavaScript万能', '3', '2018-09-06 15:49:00.963883', '2018-09-08 15:55:57.863079', '425.56');
-INSERT INTO `app01_book` VALUES ('9', '战神', '1', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '160.00');
 INSERT INTO `app01_book` VALUES ('10', '北漂', '8', '2018-09-06 15:49:00.963883', '2018-09-06 15:49:00.963883', '108.24');
 INSERT INTO `app01_book` VALUES ('11', 'Java并发编程', '6', '2018-09-08 16:35:44.109564', '2018-09-08 16:35:44.110564', '4.76');
 INSERT INTO `app01_book` VALUES ('12', 'Django 开发', '6', '2018-09-08 18:48:50.943385', '2018-09-08 18:48:50.943385', '666.66');
 INSERT INTO `app01_book` VALUES ('14', 'Flask Web开发', '1', '2018-09-08 21:07:52.293483', '2018-09-08 21:07:52.293483', '479.96');
+INSERT INTO `app01_book` VALUES ('15', '人类简史', '8', '2018-09-10 16:00:56.957736', '2018-09-10 16:00:56.957736', '99.99');
+INSERT INTO `app01_book` VALUES ('16', 'codepy高性能开发', '2', '2018-09-10 16:01:45.800588', '2018-09-10 16:01:45.801584', '99.99');
 
 -- ----------------------------
 -- Table structure for app01_publisher
@@ -135,6 +136,26 @@ INSERT INTO `app01_publisher` VALUES ('5', '清华出版社', '2018-09-06 15:49:
 INSERT INTO `app01_publisher` VALUES ('6', '上海老男孩出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:51:32.325860');
 INSERT INTO `app01_publisher` VALUES ('7', '上海新东方出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
 INSERT INTO `app01_publisher` VALUES ('8', '北京出版社', '2018-09-06 15:49:02.687071', '2018-09-06 15:49:03.540491');
+
+-- ----------------------------
+-- Table structure for app01_userinfo
+-- ----------------------------
+DROP TABLE IF EXISTS `app01_userinfo`;
+CREATE TABLE `app01_userinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `email` varchar(32) DEFAULT NULL,
+  `avatar` varchar(100) DEFAULT NULL,
+  `gender` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of app01_userinfo
+-- ----------------------------
+INSERT INTO `app01_userinfo` VALUES ('4', 'lanceyuan', 'LANCEyuan88', '44480466@qq.com', 'upload/ubuntu.png', '1');
 
 -- ----------------------------
 -- Table structure for auth_group
@@ -182,7 +203,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of auth_permission
@@ -217,6 +238,9 @@ INSERT INTO `auth_permission` VALUES ('27', 'Can delete author', '9', 'delete_au
 INSERT INTO `auth_permission` VALUES ('28', 'Can add author detail', '10', 'add_authordetail');
 INSERT INTO `auth_permission` VALUES ('29', 'Can change author detail', '10', 'change_authordetail');
 INSERT INTO `auth_permission` VALUES ('30', 'Can delete author detail', '10', 'delete_authordetail');
+INSERT INTO `auth_permission` VALUES ('31', 'Can add userinfo', '11', 'add_userinfo');
+INSERT INTO `auth_permission` VALUES ('32', 'Can change userinfo', '11', 'change_userinfo');
+INSERT INTO `auth_permission` VALUES ('33', 'Can delete userinfo', '11', 'delete_userinfo');
 
 -- ----------------------------
 -- Table structure for auth_user
@@ -236,11 +260,13 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of auth_user
 -- ----------------------------
+INSERT INTO `auth_user` VALUES ('1', 'pbkdf2_sha256$36000$I6o2njHlSZJY$QjwXgbBHwoQ9el0T9Rx493+VAo3br0UutaZGmsRznS0=', '2018-09-17 17:21:53.671539', '1', 'lance', '', '', 'lanceyuan.ly@gmail.com', '1', '1', '2018-09-17 08:44:02.556027');
+INSERT INTO `auth_user` VALUES ('3', 'pbkdf2_sha256$36000$kwc9OdgvC1qt$J4iXzf6cq9k/Bqns8/JETv5k+ATJCy93etvjm8ysma8=', '2018-09-17 17:21:39.774500', '0', 'lily', '', '', '4448', '0', '1', '2018-09-17 11:21:32.168991');
 
 -- ----------------------------
 -- Table structure for auth_user_groups
@@ -314,7 +340,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_content_type
@@ -324,6 +350,7 @@ INSERT INTO `django_content_type` VALUES ('9', 'app01', 'author');
 INSERT INTO `django_content_type` VALUES ('10', 'app01', 'authordetail');
 INSERT INTO `django_content_type` VALUES ('8', 'app01', 'book');
 INSERT INTO `django_content_type` VALUES ('7', 'app01', 'publisher');
+INSERT INTO `django_content_type` VALUES ('11', 'app01', 'userinfo');
 INSERT INTO `django_content_type` VALUES ('4', 'auth', 'group');
 INSERT INTO `django_content_type` VALUES ('2', 'auth', 'permission');
 INSERT INTO `django_content_type` VALUES ('3', 'auth', 'user');
@@ -340,7 +367,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_migrations
@@ -365,6 +392,8 @@ INSERT INTO `django_migrations` VALUES ('17', 'app01', '0004_auto_20180906_1548'
 INSERT INTO `django_migrations` VALUES ('18', 'app01', '0005_book_price', '2018-09-08 21:05:36.485715');
 INSERT INTO `django_migrations` VALUES ('19', 'app01', '0006_authordetail', '2018-09-09 11:39:25.594740');
 INSERT INTO `django_migrations` VALUES ('20', 'app01', '0007_author_detail', '2018-09-09 11:40:00.390730');
+INSERT INTO `django_migrations` VALUES ('21', 'app01', '0008_userinfo', '2018-09-18 08:25:51.171368');
+INSERT INTO `django_migrations` VALUES ('22', 'app01', '0009_userinfo_gender', '2018-09-18 08:37:10.631347');
 
 -- ----------------------------
 -- Table structure for django_session

@@ -15,7 +15,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 
-
 def login_require(func):
     @wraps(func) # 装饰器函数修复.
     def inner(requests, *args, **kwargs):
@@ -337,6 +336,7 @@ class RegForm(forms.Form):
         label="图像",
         widget=forms.widgets.FileInput()
     )
+
 
 def register(requests):
     if requests.method == "POST":
