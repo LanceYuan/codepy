@@ -108,4 +108,10 @@ if __name__ == "__main__":
 
     # 文件对象.
     user_obj = Userinfo.objects.first()
-    print(user_obj.avatar.url)
+
+    # Django中执行原生的SQL.
+    from django.db import connection
+    cursor = connection.cursor()
+    cursor.execute("select * from app01_book where id > %s", (10,))
+    data = cursor.fetchall()
+    print(data)
