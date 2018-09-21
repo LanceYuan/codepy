@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'^register/$', views.register),
     # media相关的路由设置
     url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
+    url(r'kind_upload/$', views.kind_upload),
 
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),

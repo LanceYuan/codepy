@@ -389,3 +389,13 @@ def auth_reg(requests):
 def auth_logout(requests):
     auth.logout(requests)
     return redirect("/auth_login/")
+
+
+def kind_upload(requests):
+    from django.conf import settings
+    file_obj = requests.FILES.get("imgFile")
+    with open("{0}/upload/{1}".format(settings.MEDIA_ROOT, file_obj.name), "wb") as fd:
+        for chunk in file_obj.chunks():
+            fd.write(chunk)
+    response = {"error": 0, "url": "{0}/upload/{1}".format(settings.MEDIA_URL, file_obj.name)}
+    return JsonResponse(response)
