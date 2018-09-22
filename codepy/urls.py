@@ -18,6 +18,12 @@ from django.contrib import admin
 from app01 import views
 from django.views.static import serve
 from django.conf import settings
+from django.shortcuts import HttpResponse
+
+
+def d1(requests):
+    return HttpResponse("OK")
+
 
 urlpatterns = [
     url(r'^$', views.list_book, name="home"),
@@ -61,4 +67,7 @@ urlpatterns = [
 
     # 多应用URL
     url(r"app02/", include("app02.app02_urls")),
+
+    # 根据Django admin实现URL分发.
+    url(r"^dispath/", ([url(r'^d1/$', d1), url(r'^d2/$', d1), url(r'^d3/$', d1)], None, None))
 ]
