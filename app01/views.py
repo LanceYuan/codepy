@@ -308,15 +308,35 @@ class AuthorSerializer(rest_serializers.Serializer):
         return book_list                # 代表序列化中book字段的数据.
 
 
+class BookModelSerializer(rest_serializers.ModelSerializer):
+    publisher = rest_serializers.CharField(source="publisher.name")
+    class Meta:
+        model = Book       # models中类名
+        fields = "__all__" # 需要的字段.
+    def create(self, validated_data):  # 保存失败，需要重写create方法.
+        print(validated_data)
+        data = {}
+        data["name"] = validated_data["name"]
+        data["publisher_id"] = validated_data["publisher"]["name"]
+        data["price"] = validated_data["price"]
+        book_obj = Book.objects.create(**data)
+        return book_obj
+
+
 class RestSerial(APIView):
     def get(self, requests):
         data = Book.objects.all()
-        s_data = BookSerializer(data, many=True)      # 生成OrderedDict对像.
-        return Response(s_data.data)                  # 使用rest_framework生成向应数据.
+        # s_data = BookSerializer(data, many=True)      # BookSerializer生成OrderedDict对象.
+        s_data = BookModelSerializer(data, many=True)   # BookModelSerializer生成OrderedDict对象.
+        return Response(s_data.data)                    # 使用rest_framework生成向应数据.
         # return JsonResponse(s_data.data, safe=False)  # JsonResponse非字典对像需要加上safe=False
     def post(self, requests):
-        print(requests.data)
-        return HttpResponse("OK")
+        data_obj = BookModelSerializer(data=requests.data)
+        if data_obj.is_valid():
+            data_obj.save()         # save方法实际会执行类的Create方法.
+            return Response(data_obj.data)
+        else:
+            return Response(data_obj.errors)
 
 
 class AuthSerial(APIView):
@@ -324,6 +344,7 @@ class AuthSerial(APIView):
         book_list = Author.objects.all()
         s_data = AuthorSerializer(book_list, many=True)
         return Response(s_data.data)
+
 
 def serialization(requests):
     from django.core import serializers
