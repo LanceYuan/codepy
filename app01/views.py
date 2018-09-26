@@ -280,6 +280,51 @@ def ajax_post(requests):
     return response
 
 
+from rest_framework import serializers as rest_serializers
+from rest_framework.views import APIView
+from rest_framework.response import Response
+class PublisherSerializer(rest_serializers.Serializer):
+    id = rest_serializers.IntegerField()
+    name = rest_serializers.CharField()
+
+
+class BookSerializer(rest_serializers.Serializer):
+    id = rest_serializers.IntegerField()
+    name = rest_serializers.CharField()
+    price = rest_serializers.FloatField()
+    publisher = PublisherSerializer() # 外键字段.
+    # publisher = rest_serializers.CharField(source="publisher.name")
+
+
+class AuthorSerializer(rest_serializers.Serializer):
+    id = rest_serializers.IntegerField()
+    name = rest_serializers.CharField()
+    book = rest_serializers.SerializerMethodField() # 多对多的时候使用SerializerMethodField
+
+    def get_book(self, obj):            # 当前obj为book对象.
+        book_list = []
+        for book_obj in obj.book.all(): # 获取当前book对象所有书籍.
+            book_list.append(book_obj.name)
+        return book_list                # 代表序列化中book字段的数据.
+
+
+class RestSerial(APIView):
+    def get(self, requests):
+        data = Book.objects.all()
+        s_data = BookSerializer(data, many=True)      # 生成OrderedDict对像.
+        return Response(s_data.data)                  # 使用rest_framework生成向应数据.
+        # return JsonResponse(s_data.data, safe=False)  # JsonResponse非字典对像需要加上safe=False
+    def post(self, requests):
+        print(requests.data)
+        return HttpResponse("OK")
+
+
+class AuthSerial(APIView):
+    def get(self, requests):
+        book_list = Author.objects.all()
+        s_data = AuthorSerializer(book_list, many=True)
+        return Response(s_data.data)
+
 def serialization(requests):
     from django.core import serializers
     data = Book.objects.all()
