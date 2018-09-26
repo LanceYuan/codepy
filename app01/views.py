@@ -309,7 +309,7 @@ class AuthorSerializer(rest_serializers.Serializer):
 
 
 class BookModelSerializer(rest_serializers.ModelSerializer):
-    publisher = rest_serializers.CharField(source="publisher.name")
+    # publisher = rest_serializers.CharField(source="publisher.name")
     class Meta:
         model = Book       # models中类名
         fields = "__all__" # 需要的字段.
@@ -321,6 +321,12 @@ class BookModelSerializer(rest_serializers.ModelSerializer):
         data["price"] = validated_data["price"]
         book_obj = Book.objects.create(**data)
         return book_obj
+    def update(self, obj, validated_data):  # 保存失败，需要重写update方法.
+        obj.name = validated_data["name"]
+        obj.publisher = validated_data["publisher"]  # 这个一个Publisher对象.
+        obj.price = validated_data["price"]
+        obj.save()
+        return obj
 
 
 class RestSerial(APIView):
@@ -337,6 +343,20 @@ class RestSerial(APIView):
             return Response(data_obj.data)
         else:
             return Response(data_obj.errors)
+
+class RestSerialDetail(APIView):
+    def put(self, requests, pid):
+        book_obj = Book.objects.get(pk=pid)
+        s_data = BookModelSerializer(book_obj, data=requests.data)
+        if s_data.is_valid():
+            s_data.save()
+            return Response(s_data.data)
+        else:
+            return Response(s_data.errors)
+    def delete(self, requests, pid):
+        book_obj = Book.objects.get(pk=pid)
+        book_obj.delete()
+        return Response("")
 
 
 class AuthSerial(APIView):

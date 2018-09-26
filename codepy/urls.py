@@ -56,6 +56,7 @@ urlpatterns = [
     url(r'ajax_post', views.ajax_post),
     url(r'^serialization/$', views.serialization),
     url(r'^restserial/$', views.RestSerial.as_view()),
+    url(r'^restserial/(\d+)/$', views.RestSerialDetail.as_view()),
     url(r'^authserial/$', views.AuthSerial.as_view()),
     url(r'^auth_login/$', views.auth_login),
     url(r'^auth_logout/$', views.auth_logout),
