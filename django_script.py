@@ -115,6 +115,10 @@ if __name__ == "__main__":
     cursor.execute("select * from app01_book where id > %s", (10,))
     data = cursor.fetchall()
     print(data)
+    from django.contrib.auth.models import User
+    from django.contrib.auth.models import Permission
+    user_obj = User.objects.get(username="lance")
+    print(user_obj.user_permissions.all())
 
     """
 # models.py 类名.

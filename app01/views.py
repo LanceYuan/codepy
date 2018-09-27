@@ -11,8 +11,9 @@ import json
 from django import forms
 from django.forms import widgets
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
 
 
 def login_require(func):
@@ -330,6 +331,8 @@ class BookModelSerializer(rest_serializers.ModelSerializer):
 
 
 class RestSerial(APIView):
+    @method_decorator(login_required)
+    @method_decorator(permission_required("admin.add_logentry"))
     def get(self, requests):
         data = Book.objects.all()
         # s_data = BookSerializer(data, many=True)      # BookSerializer生成OrderedDict对象.
@@ -444,6 +447,7 @@ def register(requests):
 
 
 def auth_login(requests):
+    prev_url = requests.GET.get("next", "/upload/")
     if requests.method == "POST":
         username = requests.POST.get("username")
         password = requests.POST.get("password")
@@ -452,8 +456,8 @@ def auth_login(requests):
         if user:
             # 在requests对象中添加user属性.
             auth.login(requests, user)
-            return redirect("/upload/")
-    return render(requests, "auth_login.html")
+            return redirect(prev_url)
+    return render(requests, "auth_login.html", {"prev_url": prev_url})
 
 
 def auth_reg(requests):
